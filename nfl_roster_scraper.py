@@ -49,17 +49,18 @@ def create_data_frame(roster_list):
                                     'Weight', 'Age', "Experience", "College"
                                     ])
 
-    team_df['Number'] = pd.to_numeric(team_df['Age'])
-    team_df['Age'] = pd.to_numeric(team_df['Age'])
-    team_df['Weight'] = pd.to_numeric(team_df['Weight'])
+
+    # team_df['Number'] = pd.to_numeric(team_df['Number'])
+    # team_df['Age'] = pd.to_numeric(team_df['Age'])
+    # team_df['Weight'] = pd.to_numeric(team_df['Weight'])
 
     return team_df
 
 
 def find_exp(df, operator, years):
-    if (operator.lower() == 'greater'):
+    if operator.lower() == 'greater':
         df_exp = df[df["Experience"] >= years]
-    elif (operator.lower() == 'less'):
+    elif operator.lower() == 'less':
         df_exp = df[df["Experience"] <= years]
     else:
         print("Incorrect Operator")
