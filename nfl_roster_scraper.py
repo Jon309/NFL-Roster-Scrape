@@ -1,7 +1,7 @@
 import bs4
 import requests
 import pandas as pd
-import team_urls
+import teams
 
 
 def get_player_info(team_url):
@@ -42,13 +42,13 @@ def get_player_info(team_url):
 
     return roster_list
 
+
 def create_data_frame(roster_list):
     # Create pandas DataFrame from list
     team_df = pd.DataFrame(roster_list,
                            columns=['Name', 'Number', 'Position', 'Height',
                                     'Weight', 'Age', "Experience", "College"
                                     ])
-
 
     # team_df['Number'] = pd.to_numeric(team_df['Number'])
     # team_df['Age'] = pd.to_numeric(team_df['Age'])
@@ -74,18 +74,31 @@ def find_position(df, position):
 
 def main():
 
-    # Ravens
-    ravens_roster = get_player_info(team_urls.ravens_url)
-    ravens_df = create_data_frame(ravens_roster)
-    print(ravens_df.to_string())
+    # # Ravens
+    # ravens_roster = get_player_info(teams.urls['ravens'])
+    # ravens_df = create_data_frame(ravens_roster)
+    # print(ravens_df.to_string())
+    #
+    # # Find players that are QBs
+    # print(find_position(ravens_df, 'QB').to_string())
+    #
+    # # Cardinals
+    # cardinals_roster = get_player_info(teams.urls['cardinals'])
+    # cardinals_df = create_data_frame(cardinals_roster)
+    # print(cardinals_df.to_string())
 
-    # Find players that are QBs
-    print(find_position(ravens_df, 'QB').to_string())
+    # Creates a DataFrame including every player from every NFL Team
+    concat_all_teams()
 
-    # Cardinals
-    cardinals_roster = get_player_info(team_urls.cardinals_url)
-    cardinals_df = create_data_frame(cardinals_roster)
-    print(cardinals_df.to_string())
+
+def concat_all_teams():
+    nfl_teams = []
+    for team in teams.urls:
+        team_roster = get_player_info(teams.urls[team])
+        nfl_df = create_data_frame(team_roster)
+        nfl_teams.append(nfl_df)
+    complete_df = pd.concat(nfl_teams)
+    print(complete_df.to_string())
 
 
 if __name__ == '__main__':
