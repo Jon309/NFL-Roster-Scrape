@@ -93,11 +93,14 @@ def main():
 
 def concat_all_teams():
     nfl_teams = []
-    for team in teams.urls:
-        team_roster = get_player_info(teams.urls[team])
+    for team, url in teams.urls.items():
+        team_roster = get_player_info(url)
         nfl_df = create_data_frame(team_roster)
+        nfl_df['Team'] = team.title()
         nfl_teams.append(nfl_df)
     complete_df = pd.concat(nfl_teams)
+    complete_df = complete_df.reset_index()
+    complete_df.rename(columns={"index": "Team Index"}, inplace=True)
     print(complete_df.to_string())
 
 
