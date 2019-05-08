@@ -74,21 +74,22 @@ def find_position(df, position):
 
 def main():
 
-    # # Ravens
+    # Creates a DataFrame including every player from every NFL Team
+    nfl_df = concat_all_teams()
+    print(nfl_df.to_string())
+
+    # Print all QBs in the NFL
+    print(find_position(nfl_df, 'QB').to_string())
+
+    # Print all rookies in the NFL from Alabama
+    alabama_df = nfl_df[nfl_df['College'] == 'Alabama']
+    alabama_rookies_df = alabama_df[nfl_df['Experience'] == 'R']
+    print(alabama_rookies_df.to_string())
+
+    # Creates a DataFrame including every player from the Ravens
     # ravens_roster = get_player_info(teams.urls['ravens'])
     # ravens_df = create_data_frame(ravens_roster)
     # print(ravens_df.to_string())
-    #
-    # # Find players that are QBs
-    # print(find_position(ravens_df, 'QB').to_string())
-    #
-    # # Cardinals
-    # cardinals_roster = get_player_info(teams.urls['cardinals'])
-    # cardinals_df = create_data_frame(cardinals_roster)
-    # print(cardinals_df.to_string())
-
-    # Creates a DataFrame including every player from every NFL Team
-    concat_all_teams()
 
 
 def concat_all_teams():
@@ -101,7 +102,7 @@ def concat_all_teams():
     complete_df = pd.concat(nfl_teams)
     complete_df = complete_df.reset_index()
     complete_df.rename(columns={"index": "Team Index"}, inplace=True)
-    print(complete_df.to_string())
+    return complete_df
 
 
 if __name__ == '__main__':
